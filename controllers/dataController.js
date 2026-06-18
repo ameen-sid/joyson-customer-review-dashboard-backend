@@ -168,3 +168,143 @@ export const getDashboardData = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error fetching dashboard data' });
     }
 };
+
+// Update and Delete Controllers for Operator Trainings
+export const updateOperatorTraining = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { monthYear, planJoined, operatorTrained } = req.body;
+        if (!monthYear || planJoined === undefined || operatorTrained === undefined) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+        await db.query(
+            'UPDATE operator_trainings SET month_year = ?, plan_joined = ?, operator_trained = ? WHERE id = ?',
+            [monthYear, parseInt(planJoined), parseInt(operatorTrained), id]
+        );
+        res.json({ success: true, message: 'Data updated successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+export const deleteOperatorTraining = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query('DELETE FROM operator_trainings WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Data deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+// Update and Delete Controllers for Trainings Plan vs Actual (Regular)
+export const updateTrainingsPlanActual = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { monthYear, trainingPlanRegular, actual } = req.body;
+        if (!monthYear || trainingPlanRegular === undefined || actual === undefined) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+        await db.query(
+            'UPDATE trainings_plan_actual SET month_year = ?, training_plan_regular = ?, actual = ? WHERE id = ?',
+            [monthYear, parseInt(trainingPlanRegular), parseInt(actual), id]
+        );
+        res.json({ success: true, message: 'Data updated successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+export const deleteTrainingsPlanActual = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query('DELETE FROM trainings_plan_actual WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Data deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+// Update and Delete Controllers for MSIL Defects
+export const updateMsilDefects = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { monthYear, overallDefectCustomer, ctqDefectCustomer } = req.body;
+        if (!monthYear || overallDefectCustomer === undefined || ctqDefectCustomer === undefined) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+        await db.query(
+            'UPDATE msil_defects SET month_year = ?, overall_defect_customer = ?, ctq_defect_customer = ? WHERE id = ?',
+            [monthYear, parseInt(overallDefectCustomer), parseInt(ctqDefectCustomer), id]
+        );
+        res.json({ success: true, message: 'Data updated successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+export const deleteMsilDefects = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query('DELETE FROM msil_defects WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Data deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+// Update and Delete Controllers for Internal Rejections
+export const updateInternalRejections = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { monthYear, overallDefectInternal, ctqDefectInternal } = req.body;
+        if (!monthYear || overallDefectInternal === undefined || ctqDefectInternal === undefined) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+        await db.query(
+            'UPDATE internal_rejections SET month_year = ?, overall_defect_internal = ?, ctq_defect_internal = ? WHERE id = ?',
+            [monthYear, parseInt(overallDefectInternal), parseInt(ctqDefectInternal), id]
+        );
+        res.json({ success: true, message: 'Data updated successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+export const deleteInternalRejections = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query('DELETE FROM internal_rejections WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Data deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+// Update and Delete Controllers for Trainings Plan vs Actual (Bottom)
+export const updateTrainingsPlanActualBottom = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { monthYear, trainingPlan, trainingDone } = req.body;
+        if (!monthYear || trainingPlan === undefined || trainingDone === undefined) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+        await db.query(
+            'UPDATE trainings_plan_actual_bottom SET month_year = ?, training_plan = ?, training_done = ? WHERE id = ?',
+            [monthYear, parseInt(trainingPlan), parseInt(trainingDone), id]
+        );
+        res.json({ success: true, message: 'Data updated successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+export const deleteTrainingsPlanActualBottom = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query('DELETE FROM trainings_plan_actual_bottom WHERE id = ?', [id]);
+        res.json({ success: true, message: 'Data deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
